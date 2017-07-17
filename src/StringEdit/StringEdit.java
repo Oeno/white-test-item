@@ -11,6 +11,7 @@ public class StringEdit {
 
     public static void main(String[] args) {
         String sentence;
+        int length = 0;
         Stack<String> words = new Stack();
         List<String> punctList = new ArrayList();
 
@@ -34,11 +35,17 @@ public class StringEdit {
             }
         }
 
+        // 문장에 포함된 알파벳의 전체 수 계산
+        for (String word : words) {
+            length += word.length();
+        }
+
         // 단어 역순으로 출력
         for (int i=0; i<punctList.size(); i++) {
             System.out.print(words.pop() + punctList.get(i));
         }
         System.out.printf("\n");
 
+        System.out.println("전체 수 : " + length);
     }
 }
