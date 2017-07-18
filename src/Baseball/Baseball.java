@@ -11,9 +11,11 @@ public class Baseball {
         List<Integer> answer = Arrays.asList(availabels);
         List<Integer> guess;
         String input;
+        int strike, ball;
 
         // 중복이 아닌 무작위 list 생성
         Collections.shuffle(answer);
+        answer = answer.subList(0,3);
 
         while(true) {
             // 3자리 숫자 입력
@@ -26,16 +28,37 @@ public class Baseball {
                 continue;
             }
 
-            // 입력 값을 정수로 변환
+            // 입력 값을 정수로 변환 및 중복 방지
             guess = new ArrayList();
             for (char c : input.toCharArray())
                 guess.add(c - '0');
+            if (guess.get(0) == guess.get(1) || guess.get(1) == guess.get(2) || guess.get(0) == guess.get(2)) {
+                System.out.println("[안내] 서로 다른 수를 입력하시오.");
+                continue;
+            }
 
-            // 3개의 숫자가 일치 -> 게임 종료
-            if (guess.equals(answer.subList(0,3))) {
+            strike = ball = 0;
+            for (int i = 0; i < 3; i++) {
+                if (guess.get(i) == answer.get(i))
+                    strike++;
+                else if (answer.contains(guess.get(i)))
+                    ball++;
+            }
+
+            if (strike == 3) {
                 System.out.println("[안내] 정답입니다. 게임을 종료합니다.");
                 break;
             }
+
+            System.out.print("[힌트] ");
+            if (strike > 0)
+                System.out.printf("%d 스트라이크 ", strike);
+            if (ball > 0)
+                System.out.printf("%d 볼", ball);
+            if (strike == 0 && ball == 0)
+                System.out.printf("낫싱");
+            System.out.println("");
+
         }
     }
 }
